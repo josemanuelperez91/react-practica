@@ -32,6 +32,7 @@ class Home extends React.Component {
       });
   }
   onFilter = ads => {
+    console.log(ads);
     this.setState({
       ads: ads
     });
@@ -39,6 +40,7 @@ class Home extends React.Component {
 
   render() {
     const loadedAds = this.state.ads;
+    console.log(loadedAds);
     if (loadedAds !== null) {
       return (
         <div className="Home">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ANUNCIOS_URL } from '../../constants/apiURLs';
+const _ = require('lodash');
 
 class Filter extends React.Component {
   constructor() {
@@ -18,7 +19,9 @@ class Filter extends React.Component {
     event.preventDefault();
 
     const url = new URL(ANUNCIOS_URL);
-    url.search = new URLSearchParams(this.state);
+    const urlParamsWithValue = _.omitBy(this.state, _.isEmpty);
+
+    url.search = new URLSearchParams(urlParamsWithValue);
 
     fetch(url, {
       method: 'get',
@@ -31,7 +34,7 @@ class Filter extends React.Component {
         return response.json();
       })
       .then(result => {
-        this.props.onSubmit(result);
+        this.props.onSubmit(result.results);
       })
       .catch(err => {
         alert(err.message);
