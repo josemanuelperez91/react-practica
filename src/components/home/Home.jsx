@@ -1,15 +1,15 @@
 import React from 'react';
 import './Home.css';
-import { ANUNCIOS_URL } from '../../constants/apiURLs';
+import { TAGS_URL, ANUNCIOS_URL } from '../../constants/apiURLs';
 import Filter from './Filter';
+import Ad from './Ad';
+
 // import { withRouter, Link } from 'react-router-dom';
 
 class Home extends React.Component {
   state = {
     ads: null,
-    filter: {
-      name: ''
-    }
+    tags: []
   };
   componentDidMount() {
     fetch(ANUNCIOS_URL, {
@@ -30,9 +30,26 @@ class Home extends React.Component {
       .catch(err => {
         alert(err.message);
       });
+    fetch(TAGS_URL, {
+      method: 'get',
+      credentials: 'include'
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error();
+        }
+        return response.json();
+      })
+      .then(result => {
+        this.setState({
+          tags: result.results
+        });
+      })
+      .catch(err => {
+        alert(err.message);
+      });
   }
   onFilter = ads => {
-    console.log(ads);
     this.setState({
       ads: ads
     });
@@ -44,15 +61,12 @@ class Home extends React.Component {
     if (loadedAds !== null) {
       return (
         <div className="Home">
-          <Filter onSubmit={this.onFilter}></Filter>
-          {loadedAds.map(ad => {
-            return (
-              <div key={ad._id}>
-                <p>{ad.name}</p>
-                <img src={ad.photo} />
-              </div>
-            );
-          })}
+          <Filter tags={this.state.tags} onSubmit={this.onFilter}></Filter>
+          <div className="Ads-grid">
+            {loadedAds.map(ad => {
+              return <Ad key={ad._id} data={ad}></Ad>;
+            })}
+          </div>
         </div>
       );
     } else {

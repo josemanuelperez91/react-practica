@@ -1,0 +1,12 @@
+.Ad {
+  max-width: 225px;
+  border-color: white;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 8px;
+}
+
+.Ad img {
+  width: calc(100% - 10px);
+  padding: 5px 5px 0px 5px;
+}

@@ -1,5 +1,7 @@
 import React from 'react';
 import { ANUNCIOS_URL } from '../../constants/apiURLs';
+import './Filter.css';
+
 const _ = require('lodash');
 
 class Filter extends React.Component {
@@ -7,21 +9,31 @@ class Filter extends React.Component {
     super();
     this.state = {
       name: '',
-      tag: ''
+      tag: '',
+      min: '',
+      max: ''
     };
   }
+
+  componentDidMount() {}
+
   handleInput = event => {
     this.setState({
       [event.target.name]: event.target.value
     });
   };
+
   handleSubmit = event => {
     event.preventDefault();
 
-    const url = new URL(ANUNCIOS_URL);
-    const urlParamsWithValue = _.omitBy(this.state, _.isEmpty);
+    let filterParams = { ...this.state };
+    if (filterParams.min || filterParams.max)
+      filterParams.price = `${filterParams.min}-${filterParams.max}`;
+    filterParams = _.omit(filterParams, 'max', 'min');
+    filterParams = _.omitBy(filterParams, _.isEmpty);
 
-    url.search = new URLSearchParams(urlParamsWithValue);
+    const url = new URL(ANUNCIOS_URL);
+    url.search = new URLSearchParams(filterParams);
 
     fetch(url, {
       method: 'get',
@@ -41,14 +53,39 @@ class Filter extends React.Component {
       });
   };
   render() {
+    const loadedTags = this.props.tags;
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className="Filter" onSubmit={this.handleSubmit}>
         <input
           name="name"
           onChange={this.handleInput}
           placeholder="Name"
           type="text"
         />
+        <input
+          onChange={this.handleInput}
+          name="min"
+          type="number"
+          placeholder="min price"
+          max={this.state.max}
+        />
+        <input
+          onChange={this.handleInput}
+          name="max"
+          type="number"
+          placeholder="max price"
+          min={this.state.min}
+        />
+
+        <select onChange={this.handleInput} name="tag">
+          {loadedTags.map(tag => {
+            return (
+              <option key={tag} value={tag}>
+                {tag}
+              </option>
+            );
+          })}
+        </select>
         <button>Filter</button>
       </form>
     );
