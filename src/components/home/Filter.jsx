@@ -1,6 +1,7 @@
 import React from 'react';
 import { ANUNCIOS_URL } from '../../constants/apiURLs';
 import './Filter.css';
+import { AD_LIMIT_PER_PAGE } from '../../constants/ui';
 
 const _ = require('lodash');
 
@@ -11,31 +12,56 @@ class Filter extends React.Component {
       name: '',
       tag: '',
       min: '',
-      max: ''
+      max: '',
+      venta: '',
+      limit: AD_LIMIT_PER_PAGE,
+      skip: '',
+      filterIsChanged: false
     };
   }
 
-  componentDidMount() {}
+  previousPage = () => {
+    let currentSkip = this.state.skip || 0;
+    currentSkip = Number(currentSkip) - 15;
+
+    if (currentSkip <= 0) {
+      currentSkip = '';
+    }
+
+    this.setState(
+      {
+        skip: String(currentSkip)
+      },
+      () => this.retrieveAds()
+    );
+  };
+
+  nextPage = () => {
+    const currentSkip = this.state.skip || 0;
+    this.setState(
+      {
+        skip: String(Number(currentSkip) + 15)
+      },
+      () => {
+        this.retrieveAds();
+      }
+    );
+  };
+
+  componentDidMount() {
+    this.retrieveAds();
+  }
 
   handleInput = event => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      filterIsChanged: true
     });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-
-    let filterParams = { ...this.state };
-    if (filterParams.min || filterParams.max)
-      filterParams.price = `${filterParams.min}-${filterParams.max}`;
-    filterParams = _.omit(filterParams, 'max', 'min');
-    filterParams = _.omitBy(filterParams, _.isEmpty);
-
-    const url = new URL(ANUNCIOS_URL);
-    url.search = new URLSearchParams(filterParams);
-
-    fetch(url, {
+  retrieveAds = () => {
+    const dynamicURL = this.handleURL();
+    fetch(dynamicURL, {
       method: 'get',
       credentials: 'include'
     })
@@ -47,13 +73,42 @@ class Filter extends React.Component {
       })
       .then(result => {
         this.props.onSubmit(result.results);
-      })
-      .catch(err => {
-        alert(err.message);
       });
   };
+
+  handleURL = () => {
+    let filterParams = { ...this.state };
+    if (filterParams.min || filterParams.max)
+      filterParams.price = `${filterParams.min}-${filterParams.max}`;
+
+    filterParams = _.omit(filterParams, 'max', 'min');
+    filterParams = _.omitBy(filterParams, _.isEmpty);
+
+    let url = new URL(ANUNCIOS_URL);
+    url.search = new URLSearchParams(filterParams);
+    return url;
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    this.setState(
+      {
+        skip: '',
+        filterIsChanged: false
+      },
+      () => {
+        this.retrieveAds();
+      }
+    );
+  };
+
   render() {
     const loadedTags = this.props.tags;
+
+    const page = this.state.skip
+      ? (Number(this.state.skip) + 15) / this.state.limit
+      : 1;
+
     return (
       <form className="Filter" onSubmit={this.handleSubmit}>
         <input
@@ -76,7 +131,34 @@ class Filter extends React.Component {
           placeholder="max price"
           min={this.state.min}
         />
-
+        <label>
+          Venta
+          <input
+            value="true"
+            onChange={this.handleInput}
+            name="venta"
+            type="radio"
+          />
+        </label>
+        <label>
+          Compra
+          <input
+            value="false"
+            onChange={this.handleInput}
+            name="venta"
+            type="radio"
+          />
+        </label>
+        <label>
+          Todo
+          <input
+            value=""
+            onChange={this.handleInput}
+            name="venta"
+            type="radio"
+            defaultChecked={true}
+          />
+        </label>
         <select onChange={this.handleInput} name="tag">
           {loadedTags.map(tag => {
             return (
@@ -87,6 +169,23 @@ class Filter extends React.Component {
           })}
         </select>
         <button>Filter</button>
+        <button
+          disabled={
+            this.state.skip && !this.state.filterIsChanged ? '' : 'disabled'
+          }
+          onClick={this.previousPage}
+          type="button"
+        >
+          ←
+        </button>
+        <span>Page: {page}</span>
+        <button
+          disabled={this.state.filterIsChanged ? 'disabled' : ''}
+          onClick={this.nextPage}
+          type="button"
+        >
+          →
+        </button>
       </form>
     );
   }

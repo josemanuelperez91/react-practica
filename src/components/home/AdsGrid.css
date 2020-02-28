@@ -1,0 +1,9 @@
+.AdsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: auto;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  margin: 10px 0px;
+  align-items: baseline;
+}
