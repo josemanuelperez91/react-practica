@@ -10,6 +10,9 @@ const Ad = props => {
         <p>{props.data.price} €</p>
         <img alt={props.data.name} src={props.data.photo} />
       </Link>
+      <button>
+        <Link to={'update/' + props.data._id}>Update</Link>
+      </button>
     </div>
   );
 };

@@ -2,9 +2,8 @@ import React from 'react';
 import './Home.css';
 import Filter from './Filter';
 import AdsGrid from './AdsGrid';
+import { Link } from 'react-router-dom';
 import { getTags } from '../../js/apiCalls';
-
-const _ = require('lodash');
 
 class Home extends React.Component {
   state = {
@@ -53,6 +52,9 @@ class Home extends React.Component {
       <div className="Home">
         <button onClick={this.signOut}>Sign Out</button>
         <Filter tags={this.state.tags} onSubmit={this.onFilter}></Filter>
+        <button>
+          <Link to="create">New Ad</Link>
+        </button>
         <AdsGrid ads={this.state.ads}></AdsGrid>
       </div>
     );

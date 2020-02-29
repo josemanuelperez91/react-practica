@@ -1,6 +1,7 @@
 import React from 'react';
 import './Detail.css';
 import { getAdDetails } from '../../js/apiCalls';
+import { Link } from 'react-router-dom';
 const _ = require('lodash');
 
 class Detail extends React.Component {
@@ -10,9 +11,6 @@ class Detail extends React.Component {
       adData: {}
     };
   }
-  returnToHome = () => {
-    this.props.history.push('/home');
-  };
   componentDidMount() {
     const ID = this.props.match.params.ID;
     getAdDetails(ID).then(result => {
@@ -38,15 +36,21 @@ class Detail extends React.Component {
 
       return (
         <div className="Detail">
-          <button onClick={this.returnToHome}>Back</button>
-
+          <button>
+            <Link to="/home">Back</Link>
+          </button>
           <p>{loadedAdData.name}</p>
           <p>{loadedAdData.price} €</p>
           <p>{loadedAdData.description}</p>
           <p>{loadedAdData.type}</p>
+          Tags:
+          <ul>
+            {loadedAdData.tags.map(tag => {
+              return <li>{tag}</li>;
+            })}
+          </ul>
           <p>{createDate}</p>
           <p>{updateDate}</p>
-
           <img alt={loadedAdData.name} src={loadedAdData.photo} />
         </div>
       );

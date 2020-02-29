@@ -108,7 +108,7 @@ class Filter extends React.Component {
           min={this.state.min}
         />
         <label>
-          Venta
+          Sell
           <input
             value="true"
             onChange={this.handleInput}
@@ -117,7 +117,7 @@ class Filter extends React.Component {
           />
         </label>
         <label>
-          Compra
+          Buy
           <input
             value="false"
             onChange={this.handleInput}
@@ -126,7 +126,7 @@ class Filter extends React.Component {
           />
         </label>
         <label>
-          Todo
+          All
           <input
             value=""
             onChange={this.handleInput}

@@ -66,8 +66,8 @@ export function getAds(query) {
     });
 }
 
-export function getAdDetails(ID) {
-  return fetch(`${URLS.ANUNCIOS}/${ID}`, {
+export function getAdDetails(id) {
+  return fetch(`${URLS.ANUNCIOS}/${id}`, {
     method: 'get',
     credentials: 'include'
   })
@@ -77,4 +77,29 @@ export function getAdDetails(ID) {
     .catch(() => {
       console.error('API Error');
     });
+}
+export function postAd(body) {
+  return fetch(URLS.ANUNCIOS, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    body: JSON.stringify(body),
+    credentials: 'include'
+  }).catch(() => {
+    console.error('API Error');
+  });
+}
+export function putAd(id, body) {
+  const putURL = `${URLS.ANUNCIOS}/${id}`;
+  return fetch(putURL, {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'put',
+    body: JSON.stringify(body),
+    credentials: 'include'
+  }).catch(() => {
+    console.error('API Error');
+  });
 }

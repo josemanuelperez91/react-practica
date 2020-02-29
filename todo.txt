@@ -1,6 +1,7 @@
 centralizar estilos
+tags en detail
 ..revision
-
+estandar -link o function
 -semiopcional-
 crear /editar anuncio
 
