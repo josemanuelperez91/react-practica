@@ -5,6 +5,10 @@
   border-style: solid;
   border-radius: 8px;
 }
+.Ad a {
+  text-decoration: none;
+  color: inherit;
+}
 
 .Ad img {
   width: calc(100% - 10px);

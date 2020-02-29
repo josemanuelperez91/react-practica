@@ -1,0 +1,8 @@
+centralizar estilos
+..revision
+
+-semiopcional-
+crear /editar anuncio
+
+-opcional
+estilos mejorados

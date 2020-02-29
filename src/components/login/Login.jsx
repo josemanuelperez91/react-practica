@@ -1,8 +1,7 @@
 import React from 'react';
 import './Login.css';
-import { LOGIN_URL } from '../../constants/apiURLs';
 import { withRouter, Link } from 'react-router-dom';
-
+import { signIn } from '../../js/apiCalls';
 class Login extends React.Component {
   constructor() {
     super();
@@ -21,23 +20,11 @@ class Login extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    fetch(LOGIN_URL, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'post',
-      body: JSON.stringify(this.state),
-      credentials: 'include'
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error();
-        }
+    signIn({ ...this.state }).then(response => {
+      if (response.ok) {
         this.props.history.push('/home');
-      })
-      .catch(err => {
-        alert(err.message);
-      });
+      }
+    });
   };
   render() {
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import './Register.css';
-import { REGISTER_URL } from '../../constants/apiURLs';
+import { signUp } from '../../js/apiCalls';
 import { withRouter, Link } from 'react-router-dom';
 
 class Register extends React.Component {
@@ -21,23 +21,11 @@ class Register extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    fetch(REGISTER_URL, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'post',
-      body: JSON.stringify(this.state),
-      credentials: 'include'
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error();
-        }
+    signUp({ ...this.state }).then(response => {
+      if (response.ok) {
         this.props.history.push('/login');
-      })
-      .catch(err => {
-        alert(err.message);
-      });
+      }
+    });
   };
   render() {
     return (

@@ -3,6 +3,7 @@ import './App.css';
 import Register from './components/register/Register';
 import Login from './components/login/Login';
 import Home from './components/home/Home';
+import Detail from './components/detail/Detail';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
@@ -17,9 +18,8 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/home">
-            <Home />
-          </Route>
+          <Route path="/home" component={Home} />
+          <Route path="/detail/:ID" component={Detail} />
           <Route>
             <Register />
           </Route>

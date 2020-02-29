@@ -1,4 +1,4 @@
-export const REGISTER_URL = 'http://34.89.93.186:8080/apiv1/register';
-export const LOGIN_URL = 'http://34.89.93.186:8080/apiv1/login';
-export const ANUNCIOS_URL = 'http://34.89.93.186:8080/apiv1/anuncios';
-export const TAGS_URL = 'http://34.89.93.186:8080/apiv1/tags';
+export const REGISTER = 'http://34.89.93.186:8080/apiv1/register';
+export const LOGIN = 'http://34.89.93.186:8080/apiv1/login';
+export const ANUNCIOS = 'http://34.89.93.186:8080/apiv1/anuncios';
+export const TAGS = 'http://34.89.93.186:8080/apiv1/tags';

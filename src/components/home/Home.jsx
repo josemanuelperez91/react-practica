@@ -1,12 +1,10 @@
 import React from 'react';
 import './Home.css';
-import { TAGS_URL } from '../../constants/apiURLs';
 import Filter from './Filter';
 import AdsGrid from './AdsGrid';
+import { getTags } from '../../js/apiCalls';
 
 const _ = require('lodash');
-
-// import { withRouter, Link } from 'react-router-dom';
 
 class Home extends React.Component {
   state = {
@@ -14,36 +12,46 @@ class Home extends React.Component {
     tags: []
   };
 
+  /**
+   * AbortController is used to, in case
+   * the session cookie is not valid and the API
+   * returns a 'Not logged in error' , prevent the fetching
+   * in componentDidMount to produce warnings in React due to 'memory leaks'
+   */
+  controller = new AbortController();
+  componentWillUnmount() {
+    this.controller.abort();
+  }
   componentDidMount() {
-    fetch(TAGS_URL, {
-      method: 'get',
-      credentials: 'include'
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error();
-        }
-        return response.json();
-      })
-      .then(result => {
-        this.setState({
-          tags: result.results
-        });
-      })
-      .catch(err => {
-        alert(err.message);
+    getTags().then(result => {
+      this.setState({
+        tags: result.results
       });
+    });
   }
 
-  onFilter = ads => {
-    this.setState({
-      ads: ads
-    });
+  signOut = () => {
+    this.props.history.push('/login');
+  };
+
+  onFilter = result => {
+    if (result.success) {
+      this.setState({
+        ads: result.results
+      });
+    } else {
+      if (result.error === 'Error: Not logged in') {
+        this.props.history.push('/login');
+      } else {
+        console.error(result.error);
+      }
+    }
   };
 
   render() {
     return (
       <div className="Home">
+        <button onClick={this.signOut}>Sign Out</button>
         <Filter tags={this.state.tags} onSubmit={this.onFilter}></Filter>
         <AdsGrid ads={this.state.ads}></AdsGrid>
       </div>

@@ -1,9 +1,8 @@
 import React from 'react';
-import { ANUNCIOS_URL } from '../../constants/apiURLs';
 import './Filter.css';
-import { AD_LIMIT_PER_PAGE } from '../../constants/ui';
 
-const _ = require('lodash');
+import { AD_LIMIT_PER_PAGE } from '../../constants/appConstants';
+import { getAds, createURLQuery } from '../../js/apiCalls';
 
 class Filter extends React.Component {
   constructor() {
@@ -32,7 +31,7 @@ class Filter extends React.Component {
       {
         skip: String(currentSkip)
       },
-      () => this.retrieveAds()
+      () => this.loadAds()
     );
   };
 
@@ -43,13 +42,13 @@ class Filter extends React.Component {
         skip: String(Number(currentSkip) + 15)
       },
       () => {
-        this.retrieveAds();
+        this.loadAds();
       }
     );
   };
 
   componentDidMount() {
-    this.retrieveAds();
+    this.loadAds();
   }
 
   handleInput = event => {
@@ -59,34 +58,11 @@ class Filter extends React.Component {
     });
   };
 
-  retrieveAds = () => {
-    const dynamicURL = this.handleURL();
-    fetch(dynamicURL, {
-      method: 'get',
-      credentials: 'include'
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error();
-        }
-        return response.json();
-      })
-      .then(result => {
-        this.props.onSubmit(result.results);
-      });
-  };
-
-  handleURL = () => {
-    let filterParams = { ...this.state };
-    if (filterParams.min || filterParams.max)
-      filterParams.price = `${filterParams.min}-${filterParams.max}`;
-
-    filterParams = _.omit(filterParams, 'max', 'min');
-    filterParams = _.omitBy(filterParams, _.isEmpty);
-
-    let url = new URL(ANUNCIOS_URL);
-    url.search = new URLSearchParams(filterParams);
-    return url;
+  loadAds = () => {
+    const query = createURLQuery({ ...this.state });
+    getAds(query).then(result => {
+      this.props.onSubmit(result);
+    });
   };
 
   handleSubmit = event => {
@@ -97,7 +73,7 @@ class Filter extends React.Component {
         filterIsChanged: false
       },
       () => {
-        this.retrieveAds();
+        this.loadAds();
       }
     );
   };
@@ -159,11 +135,15 @@ class Filter extends React.Component {
             defaultChecked={true}
           />
         </label>
-        <select onChange={this.handleInput} name="tag">
+        <select
+          defaultValue={loadedTags[0]}
+          onChange={this.handleInput}
+          name="tag"
+        >
           {loadedTags.map(tag => {
             return (
-              <option key={tag} value={tag}>
-                {tag}
+              <option key={tag} value={tag ? tag : ''}>
+                {tag ? tag : 'Select a Tag'}
               </option>
             );
           })}
