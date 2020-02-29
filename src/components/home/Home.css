@@ -1,12 +1,10 @@
 #signOut {
-  display: block;
-  box-sizing: border-box;
-  padding: 10px;
-  font-size: 1.1rem;
-  border-radius: 5px;
-  margin: 5px 0px;
-  cursor: pointer;
-  border: none;
   background-color: maroon;
+  color: white;
+  width: fit-content;
+}
+
+#createAd {
+  background-color: seagreen;
   color: white;
 }

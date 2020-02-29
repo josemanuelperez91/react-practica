@@ -103,27 +103,7 @@ class Form extends React.Component {
           placeholder="Description"
           name="description"
         ></textarea>
-        <br />
-        <label>
-          Buy
-          <input
-            onChange={this.handleInput}
-            value="buy"
-            name="type"
-            type="radio"
-            checked={this.state.adData.type === 'buy' ? true : false}
-          />
-        </label>
-        <label>
-          Sell
-          <input
-            onChange={this.handleInput}
-            value="sell"
-            name="type"
-            type="radio"
-            checked={this.state.adData.type === 'sell' ? true : false}
-          />
-        </label>
+
         <input
           onChange={this.handleInput}
           placeholder="Photo URL"
@@ -152,7 +132,29 @@ class Form extends React.Component {
             );
           })}
         </select>
-        <button type="submit">Submit</button>
+        <label>
+          Buy
+          <input
+            onChange={this.handleInput}
+            value="buy"
+            name="type"
+            type="radio"
+            checked={this.state.adData.type === 'buy' ? true : false}
+          />
+        </label>
+        <label>
+          Sell
+          <input
+            onChange={this.handleInput}
+            value="sell"
+            name="type"
+            type="radio"
+            checked={this.state.adData.type === 'sell' ? true : false}
+          />
+        </label>
+        <button className="greenButton" type="submit">
+          Submit
+        </button>
       </form>
     );
   }

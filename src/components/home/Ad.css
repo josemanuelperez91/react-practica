@@ -1,16 +1,29 @@
 .Ad {
   max-width: 225px;
-  border-color: white;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 8px;
+  box-shadow: 0px 0px 5px 2px white;
+  border-radius: 5px;
+  padding: 5px;
 }
-.Ad a {
-  text-decoration: none;
-  color: inherit;
+.Ad p,
+.Ad h2,
+.Ad button {
+  margin: 2.5px 0px;
 }
 
+.Ad .sell,
+.Ad .buy {
+  text-align: right;
+  padding: 2.5px;
+}
+.Ad .sell {
+  background-color: darkgoldenrod;
+}
+
+.Ad .buy {
+  background-color: plum;
+}
 .Ad img {
   width: calc(100% - 10px);
   padding: 5px 5px 0px 5px;
+  min-height: 100px;
 }

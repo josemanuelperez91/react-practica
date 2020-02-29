@@ -7,11 +7,13 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  font-size: 1rem;
 }
 
-form button,
-form input,
-form select {
+button,
+input,
+select,
+textarea {
   display: block;
   width: 100%;
   box-sizing: border-box;
@@ -21,23 +23,26 @@ form select {
   margin: 5px 0px;
   cursor: pointer;
 }
+button:disabled {
+  cursor: unset;
+  background-color: lightgray;
+}
 
-form button {
+button {
   border: none;
   background-color: white;
 }
 
-form input {
+input {
   border: 1px solid white;
   background-color: #282c34;
   color: white;
 }
-form label {
+label {
   display: inline-block;
-  font-size: 1rem;
   margin: 0 10px;
 }
-form label input[type='radio'] {
+label input[type='radio'] {
   padding: 10px;
 }
 
@@ -48,4 +53,5 @@ a {
 
 .greenButton {
   background-color: seagreen;
+  color: white;
 }

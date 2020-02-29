@@ -17,13 +17,13 @@ class Update extends React.Component {
   render() {
     return (
       <div className="Edit">
-        <button>
-          <Link to="/home">Back</Link>
-        </button>
         <Form
           onSubmit={this.onUpdate}
           adIdentifier={this.props.match.params.ID}
         ></Form>
+        <button>
+          <Link to="/home">Back</Link>
+        </button>
       </div>
     );
   }

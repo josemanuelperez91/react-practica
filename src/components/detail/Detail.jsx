@@ -36,22 +36,22 @@ class Detail extends React.Component {
 
       return (
         <div className="Detail">
-          <button>
-            <Link to="/home">Back</Link>
-          </button>
-          <p>{loadedAdData.name}</p>
-          <p>{loadedAdData.price} €</p>
-          <p>{loadedAdData.description}</p>
-          <p>{loadedAdData.type}</p>
+          <h1>{loadedAdData.name}</h1>
+          <img alt={loadedAdData.name} src={loadedAdData.photo} />
+          <p>Type: {loadedAdData.type}</p>
+          <p>Price: {loadedAdData.price} €</p>
+          <p id="description">{loadedAdData.description}</p>
           Tags:
           <ul>
             {loadedAdData.tags.map(tag => {
               return <li>{tag}</li>;
             })}
           </ul>
-          <p>{createDate}</p>
-          <p>{updateDate}</p>
-          <img alt={loadedAdData.name} src={loadedAdData.photo} />
+          <p>Created: {createDate}</p>
+          <p>Last update: {updateDate}</p>
+          <button>
+            <Link to="/home">Back</Link>
+          </button>
         </div>
       );
     } else {

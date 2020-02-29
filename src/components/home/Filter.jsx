@@ -148,23 +148,26 @@ class Filter extends React.Component {
             );
           })}
         </select>
-        <button>Filter</button>
+        <button id="filterButton">Filter</button>
+
         <button
+          className="pagination"
           disabled={
             this.state.skip && !this.state.filterIsChanged ? '' : 'disabled'
           }
           onClick={this.previousPage}
           type="button"
         >
-          ←
+          Previous
         </button>
-        <span>Page: {page}</span>
+        <div className="pagination ">Page: {page}</div>
         <button
+          className="pagination"
           disabled={this.state.filterIsChanged ? 'disabled' : ''}
           onClick={this.nextPage}
           type="button"
         >
-          →
+          Next
         </button>
       </form>
     );

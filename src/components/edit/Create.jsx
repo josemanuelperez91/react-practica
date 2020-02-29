@@ -16,10 +16,10 @@ class Create extends React.Component {
   render() {
     return (
       <div className="Edit">
+        <Form onSubmit={this.onCreate}></Form>
         <button>
           <Link to="/home">Back</Link>
         </button>
-        <Form onSubmit={this.onCreate}></Form>
       </div>
     );
   }

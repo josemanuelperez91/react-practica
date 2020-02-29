@@ -1,6 +1,8 @@
-.Filter select {
+#filterButton {
+  background-color: gold;
 }
-.Filter label {
-}
-.Filter label input {
+.Filter .pagination {
+  display: inline-block;
+  width: 33.33%;
+  text-align: center;
 }

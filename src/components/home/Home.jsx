@@ -55,7 +55,7 @@ class Home extends React.Component {
           Sign Out
         </button>
         <Filter tags={this.state.tags} onSubmit={this.onFilter}></Filter>
-        <button>
+        <button id="createAd" className="greenButton">
           <Link to="create">New Ad</Link>
         </button>
         <AdsGrid ads={this.state.ads}></AdsGrid>
