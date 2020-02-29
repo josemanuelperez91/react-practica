@@ -1,5 +1,0 @@
-centralizar estilos
-..revision
-
--opcional
-estilos mejorados
