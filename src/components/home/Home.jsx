@@ -30,6 +30,7 @@ class Home extends React.Component {
   }
 
   signOut = () => {
+    /** Delete cookies here */
     this.props.history.push('/login');
   };
 
