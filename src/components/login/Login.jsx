@@ -1,5 +1,4 @@
 import React from 'react';
-import './Login.css';
 import { withRouter, Link } from 'react-router-dom';
 import { signIn } from '../../js/apiCalls';
 class Login extends React.Component {
@@ -44,7 +43,9 @@ class Login extends React.Component {
             placeholder="password"
             type="password"
           />
-          <button type="submit">Sign In</button>
+          <button className="greenButton" type="submit">
+            Sign In
+          </button>
           <button type="button">
             <Link to="/register">I dont have an accout</Link>
           </button>

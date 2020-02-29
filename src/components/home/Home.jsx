@@ -51,7 +51,9 @@ class Home extends React.Component {
   render() {
     return (
       <div className="Home">
-        <button onClick={this.signOut}>Sign Out</button>
+        <button id="signOut" onClick={this.signOut}>
+          Sign Out
+        </button>
         <Filter tags={this.state.tags} onSubmit={this.onFilter}></Filter>
         <button>
           <Link to="create">New Ad</Link>
